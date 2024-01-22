@@ -1,0 +1,26 @@
+{% extends 'mailing/base.html' %}
+{% block content%}
+
+<h2 class="display-4">Blog</h2>
+
+<div class="btn-group">
+    <div class="nav-scroller py-4 mb-2">
+        <a href="{% url 'mailing:edit_message' object.pk %}">Изменить</a>
+        <a href="{% url 'mailing:delete_message' object.pk %}">Удалить</a>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col-md-12">
+        <div class="card flex-md-row mb-4 box-shadow md-250">
+            <div class="card-body d-flex flex-column align-items-start">
+                <h3 class="mb-0">
+                    <a class="text-dark">{{object.subject|title}}</a>
+                </h3>
+                <p class="card-text mb-auto">{{ object.body }}</p>
+                <a href="#"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

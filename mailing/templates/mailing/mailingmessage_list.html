@@ -1,0 +1,31 @@
+{% extends 'mailing/base.html' %}
+{% load my_tags %}
+{% block content%}
+
+<h1 class="display-12">Список сообщений</h1>
+<div class="nav-scroller py-4 mb-2">
+    <a href="{% url 'mailing:create_message' %}">Добавить сообщение</a>
+</div>
+
+<div class="row mb-2">
+    {% for object in object_list %}
+    <div class="col-md-6">
+        <div class="card flex-md-row mb-2 box-shadow h-md-250">
+            <div class="card-body d-flex flex-column align-items-start">
+                <h4>
+                    <strong class="d-inline-block">
+                        <a class="text-success" href="{% url 'mailing:view_message' object.pk %}">{{object.subject|title}}</a>
+                    </strong>
+                </h4>
+                <div class="btn-group">
+                    <div class="nav-scroller py-4 mb-2">
+                        <a href="{% url 'mailing:edit_message' object.pk %}">Изменить</a>
+                        <a href="{% url 'mailing:delete_message' object.pk %}">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
