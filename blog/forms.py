@@ -13,4 +13,4 @@ class StyleFormMixin:
 class BlogForms(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ('title', 'content', 'image')
+        fields = ('title', 'content', 'image',)

@@ -9,6 +9,7 @@ class Blog(models.Model):
     image = models.ImageField(upload_to='blog/', **NULLABLE, verbose_name='Изображение')
     view_count = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
+    slug = models.SlugField(**NULLABLE)
 
     def __str__(self):
         return self.title
