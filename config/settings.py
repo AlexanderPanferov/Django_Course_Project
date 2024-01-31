@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     'mailing',
     'blog',
     'users',
+
+    'django_crontab'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -115,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tomsk'
 
 USE_I18N = True
 
@@ -145,6 +148,12 @@ LOGIN_URL = '/users/'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_USER = 'MRDAMAD4@yandex.ru'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
+
+CRONJOBS = [
+    ('0 12 * * *', 'mailing.tasks.daily_tasks'),
+    ('0 12 * * 1', 'mailing.tasks.weekly_tasks'),
+    ('0 12 1 * *', 'mailing.tasks.monthly_tasks'),
+]
