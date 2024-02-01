@@ -1,10 +1,12 @@
 import random
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from blog.models import Blog
 from mailing.forms import ClientForm, MailingMessageForm, MailingSettingsForm, ModeratorMailingSettingsForm
-from mailing.models import Client, MailingMessage, MailingSettings
+from mailing.models import Client, MailingMessage, MailingSettings, MailingLog
 
 
 class HomepageView(TemplateView):
@@ -20,7 +22,17 @@ class HomepageView(TemplateView):
         return context_data
 
 
-class ClientListView(ListView):
+class MailingLogListView(LoginRequiredMixin, ListView):
+    model = MailingLog
+
+    def get_queryset(self):
+        if self.request.user.groups.filter(name='mailing_mod').exists():
+            return MailingLog.objects.all()
+        queryset = MailingLog.objects.filter(mailing__user=self.request.user)
+        return queryset
+
+
+class ClientListView(LoginRequiredMixin, ListView):
     model = Client
 
     def get_queryset(self):
@@ -58,7 +70,7 @@ class ClientDeleteView(DeleteView):
     success_url = reverse_lazy('mailing:list_client')
 
 
-class MailingMessageListView(ListView):
+class MailingMessageListView(LoginRequiredMixin, ListView):
     model = MailingMessage
 
     def get_queryset(self):
@@ -110,7 +122,7 @@ class MailingMessageDeleteView(DeleteView):
         return self.object
 
 
-class MailingSettingsListView(ListView):
+class MailingSettingsListView(LoginRequiredMixin, ListView):
     model = MailingSettings
 
     def get_queryset(self):
