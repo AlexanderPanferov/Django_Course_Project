@@ -1,14 +1,23 @@
+import random
 from django.http import Http404
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-
+from blog.models import Blog
 from mailing.forms import ClientForm, MailingMessageForm, MailingSettingsForm, ModeratorMailingSettingsForm
 from mailing.models import Client, MailingMessage, MailingSettings
 
 
 class HomepageView(TemplateView):
     template_name = 'mailing/index.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['mailing_settings'] = len(MailingSettings.objects.all())
+        context_data['mailing_active'] = MailingSettings.objects.filter(status='launched').count()
+        context_data['client'] = len(Client.objects.all())
+        context_data['blog_list'] = random.sample(list(Blog.objects.all()), 3)
+
+        return context_data
 
 
 class ClientListView(ListView):
@@ -52,8 +61,6 @@ class ClientDeleteView(DeleteView):
 class MailingMessageListView(ListView):
     model = MailingMessage
 
-
-
     def get_queryset(self):
         queryset = super().get_queryset().filter()
         if self.request.user.groups.filter(name='mailing_mod').exists():
@@ -90,7 +97,6 @@ class MailingMessageUpdateView(UpdateView):
 
 class MailingMessageDetailView(DetailView):
     model = MailingMessage
-
 
 
 class MailingMessageDeleteView(DeleteView):
