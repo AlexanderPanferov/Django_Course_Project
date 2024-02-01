@@ -52,8 +52,12 @@ class ClientDeleteView(DeleteView):
 class MailingMessageListView(ListView):
     model = MailingMessage
 
+
+
     def get_queryset(self):
         queryset = super().get_queryset().filter()
+        if self.request.user.groups.filter(name='mailing_mod').exists():
+            return queryset
         if not self.request.user.is_superuser:
             queryset = queryset.filter(user=self.request.user)
 
@@ -77,14 +81,27 @@ class MailingMessageUpdateView(UpdateView):
     form_class = MailingMessageForm
     success_url = reverse_lazy('mailing:list_message')
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object
+
 
 class MailingMessageDetailView(DetailView):
     model = MailingMessage
 
 
+
 class MailingMessageDeleteView(DeleteView):
     model = MailingMessage
     success_url = reverse_lazy('mailing:list_message')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user:
+            raise Http404
+        return self.object
 
 
 class MailingSettingsListView(ListView):

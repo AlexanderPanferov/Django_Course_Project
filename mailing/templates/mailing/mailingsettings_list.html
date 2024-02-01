@@ -1,5 +1,5 @@
 {% extends 'mailing/base.html' %}
-{% load my_tags %}
+{% load custom_tags %}
 {% block content%}
 
 <h1 class="display-12">Список рассылок</h1>
@@ -17,14 +17,20 @@
                         <a class="text-success" href="{% url 'mailing:view_settings' object.pk %}">{{object.message.subject}}</a>
                     </strong>
                 </h4>
-                <div class="mb-1 text-muted">{{ object.time }}</div>
-                <p class="card-text mb-auto">{{ object.frequency }}</p>
+                <div class="mb-1 text-muted">Время отправления:{{ object.start_time }}</div>
+                <div class="mb-1 text-muted">Время завершения:{{ object.stop_time }}</div>
+                <p class="card-text mb-auto">Переодичность: {{ object.frequency }}</p>
                 <div class="btn-group">
                     <div class="nav-scroller py-4 mb-2">
+                        {% if user|has_group:"mailing_mod" %}
                         <a href="{% url 'mailing:edit_settings' object.pk %}">Изменить</a>
+                        {% endif %}
+                        {% if object.user == user %}
                         <a href="{% url 'mailing:delete_settings' object.pk %}">Удалить</a>
+                        {% endif %}
                     </div>
                 </div>
+                <div class="mb-1 text-muted">Пользователь: {{ object.user.first_name }}</div>
             </div>
         </div>
     </div>

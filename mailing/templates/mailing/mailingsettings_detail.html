@@ -1,12 +1,17 @@
 {% extends 'mailing/base.html' %}
+{% load custom_tags %}
 {% block content%}
 
 <h2 class="display-4">Blog</h2>
 
 <div class="btn-group">
     <div class="nav-scroller py-4 mb-2">
+        {% if user|has_group:"mailing_mod" %}
         <a href="{% url 'mailing:edit_settings' object.pk %}">Изменить</a>
+        {% endif %}
+        {% if object.user == user %}
         <a href="{% url 'mailing:delete_settings' object.pk %}">Удалить</a>
+        {% endif %}
     </div>
 </div>
 <div class="row mb-2">
