@@ -10,5 +10,7 @@ class User(AbstractUser):
     verified = models.BooleanField(default=False, verbose_name='подтвержден')
     verification_code = models.IntegerField(verbose_name='ключ подтверждения', **NULLABLE)
 
+    is_blocked = models.BooleanField(default=False, verbose_name='Блокировка')
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
