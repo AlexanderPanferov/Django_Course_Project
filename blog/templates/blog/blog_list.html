@@ -3,7 +3,7 @@
 {% load blog_tags %}
 {% block content%}
 
-<h1 class="display-4">Blogs</h1>
+
 <div class="nav-scroller py-4 mb-2">
     {% if user|has_group:"blog_mod" %}
     <a href="{% url 'blog:create_blog' %}">Добавить Блог</a>
