@@ -1,0 +1,187 @@
+[
+  {
+    "model": "mailing.client",
+    "pk": 10,
+    "fields": {
+      "fullname": "Алексей",
+      "email": "mrdamad@yandex.ru",
+      "comment": "\"Описание\"",
+      "user": 5
+    }
+  },
+  {
+    "model": "mailing.client",
+    "pk": 11,
+    "fields": {
+      "fullname": "Эдуард",
+      "email": "alexandr.n.panferov@gmail.com",
+      "comment": "123",
+      "user": 4
+    }
+  },
+  {
+    "model": "mailing.client",
+    "pk": 12,
+    "fields": {
+      "fullname": "Alexander",
+      "email": "mezerr123@gmail.com",
+      "comment": "\"________________\"",
+      "user": 3
+    }
+  },
+  {
+    "model": "mailing.client",
+    "pk": 13,
+    "fields": {
+      "fullname": "Егор",
+      "email": "rgpokerdamad@gmail.com",
+      "comment": "123321123",
+      "user": 3
+    }
+  },
+  {
+    "model": "mailing.mailingmessage",
+    "pk": 6,
+    "fields": {
+      "subject": "название рассылки",
+      "body": "сообщение рассылки",
+      "user": 3
+    }
+  },
+  {
+    "model": "mailing.mailingmessage",
+    "pk": 7,
+    "fields": {
+      "subject": "тестовая рассылка",
+      "body": "ее содержание",
+      "user": 3
+    }
+  },
+  {
+    "model": "mailing.mailingmessage",
+    "pk": 8,
+    "fields": {
+      "subject": "Оглавление",
+      "body": "Содержание",
+      "user": 4
+    }
+  },
+  {
+    "model": "mailing.mailingmessage",
+    "pk": 9,
+    "fields": {
+      "subject": "Важное",
+      "body": "может быть",
+      "user": 5
+    }
+  },
+  {
+    "model": "mailing.mailingsettings",
+    "pk": 8,
+    "fields": {
+      "start_time": "12:00:00",
+      "stop_time": "20:00:00",
+      "frequency": "daily",
+      "status": "launched",
+      "message": 9,
+      "user": 3,
+      "client": [
+        11,
+        13
+      ]
+    }
+  },
+  {
+    "model": "mailing.mailingsettings",
+    "pk": 9,
+    "fields": {
+      "start_time": "10:34:53",
+      "stop_time": "18:34:53",
+      "frequency": "weekly",
+      "status": "launched",
+      "message": 8,
+      "user": 3,
+      "client": [
+        10,
+        12
+      ]
+    }
+  },
+  {
+    "model": "mailing.mailingsettings",
+    "pk": 10,
+    "fields": {
+      "start_time": "09:00:00",
+      "stop_time": "14:35:34",
+      "frequency": "daily",
+      "status": "created",
+      "message": 7,
+      "user": 4,
+      "client": [
+        10,
+        11,
+        12
+      ]
+    }
+  },
+  {
+    "model": "mailing.mailingsettings",
+    "pk": 11,
+    "fields": {
+      "start_time": "07:00:00",
+      "stop_time": "14:00:00",
+      "frequency": "monthly",
+      "status": "completed",
+      "message": 6,
+      "user": 5,
+      "client": [
+        10,
+        11
+      ]
+    }
+  },
+  {
+    "model": "mailing.mailinglog",
+    "pk": 42,
+    "fields": {
+      "datatime": "2024-02-01T05:04:02.874Z",
+      "status": "successfully",
+      "serv_response": null,
+      "mailing": 8,
+      "client": "alexandr.n.panferov@gmail.com"
+    }
+  },
+  {
+    "model": "mailing.mailinglog",
+    "pk": 43,
+    "fields": {
+      "datatime": "2024-02-01T05:04:03.865Z",
+      "status": "successfully",
+      "serv_response": null,
+      "mailing": 8,
+      "client": "rgpokerdamad@gmail.com"
+    }
+  },
+  {
+    "model": "mailing.mailinglog",
+    "pk": 44,
+    "fields": {
+      "datatime": "2024-02-01T05:05:03.099Z",
+      "status": "successfully",
+      "serv_response": null,
+      "mailing": 8,
+      "client": "alexandr.n.panferov@gmail.com"
+    }
+  },
+  {
+    "model": "mailing.mailinglog",
+    "pk": 45,
+    "fields": {
+      "datatime": "2024-02-01T05:05:04.171Z",
+      "status": "successfully",
+      "serv_response": "0",
+      "mailing": 8,
+      "client": "rgpokerdamad@gmail.com"
+    }
+  }
+]
