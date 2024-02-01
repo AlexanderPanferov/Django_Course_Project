@@ -13,10 +13,12 @@ class BlogListView(ListView):
 
 
 class BlogDetailView(DetailView):
+    """Отображения страницы блога"""
     model = Blog
     slug_url_kwarg = 'slug'
 
     def get_object(self, queryset=None):
+        """Реализация счетчика просмотров"""
         slug = self.kwargs.get('slug')
         blog = self.model.objects.get(slug=slug)
         blog.view_count += 1
@@ -25,6 +27,7 @@ class BlogDetailView(DetailView):
 
 
 class BlogCreateView(LoginRequiredMixin, CreateView):
+    """Создание блога"""
     model = Blog
     form_class = BlogForms
     success_url = reverse_lazy('blog:list_blog')
@@ -43,6 +46,7 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
 
 
 class BlogUpdateView(LoginRequiredMixin, UpdateView):
+    """Редактирование блога"""
     model = Blog
     form_class = BlogForms
     success_url = reverse_lazy('blog:list_blog')
@@ -54,6 +58,7 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class BlogDeleteView(LoginRequiredMixin, DeleteView):
+    """Удаление блога"""
     model = Blog
     success_url = reverse_lazy('blog:list_blog')
 

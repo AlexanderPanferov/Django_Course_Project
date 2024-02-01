@@ -11,6 +11,7 @@ from mailing.services import get_message
 
 
 class HomepageView(TemplateView):
+    """Отображение главной страницы"""
     template_name = 'mailing/index.html'
 
     def get_context_data(self, **kwargs):
@@ -24,9 +25,11 @@ class HomepageView(TemplateView):
 
 
 class MailingLogListView(LoginRequiredMixin, ListView):
+    """Отображение списка рассылок"""
     model = MailingLog
 
     def get_queryset(self):
+        """Функция для просмотра только своих логов"""
         if self.request.user.groups.filter(name='mailing_mod').exists():
             return MailingLog.objects.all()
         queryset = MailingLog.objects.filter(mailing__user=self.request.user)
@@ -34,9 +37,11 @@ class MailingLogListView(LoginRequiredMixin, ListView):
 
 
 class ClientListView(LoginRequiredMixin, ListView):
+    """Отображение списка клиентов"""
     model = Client
 
     def get_queryset(self):
+        """Функция для просмотра только своих клиентов"""
         queryset = super().get_queryset().filter()
         if not self.request.user.is_superuser:
             queryset = queryset.filter(user=self.request.user)
@@ -45,11 +50,13 @@ class ClientListView(LoginRequiredMixin, ListView):
 
 
 class ClientCreateView(CreateView):
+    """Создание клиента"""
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mailing:list_client')
 
     def form_valid(self, form):
+        """Функция для присвоения клиента к пользователю"""
         self.object = form.save()
         self.object.user = self.request.user
         self.object.save()
@@ -57,24 +64,29 @@ class ClientCreateView(CreateView):
 
 
 class ClientUpdateView(UpdateView):
+    """Редактирование клиента"""
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mailing:list_client')
 
 
 class ClientDetailView(DetailView):
+    """Просмотр клиента"""
     model = Client
 
 
 class ClientDeleteView(DeleteView):
+    """Удаление клиента"""
     model = Client
     success_url = reverse_lazy('mailing:list_client')
 
 
 class MailingMessageListView(LoginRequiredMixin, ListView):
+    """Отображение списка сообщений"""
     model = MailingMessage
 
     def get_queryset(self):
+        """Функция, позволяющая просматривать только своих клиентов"""
         queryset = super().get_queryset().filter()
         if self.request.user.groups.filter(name='mailing_mod').exists():
             return queryset
@@ -85,6 +97,7 @@ class MailingMessageListView(LoginRequiredMixin, ListView):
 
 
 class MailingMessageCreateView(CreateView):
+    """Создание сообщения"""
     model = MailingMessage
     form_class = MailingMessageForm
     success_url = reverse_lazy('mailing:list_message')
@@ -109,10 +122,12 @@ class MailingMessageUpdateView(UpdateView):
 
 
 class MailingMessageDetailView(DetailView):
+    """Просмотр сообщения"""
     model = MailingMessage
 
 
 class MailingMessageDeleteView(DeleteView):
+    """Удаление сообщения"""
     model = MailingMessage
     success_url = reverse_lazy('mailing:list_message')
 
@@ -124,9 +139,11 @@ class MailingMessageDeleteView(DeleteView):
 
 
 class MailingSettingsListView(LoginRequiredMixin, ListView):
+    """Отображение списка рассылок"""
     model = MailingSettings
 
     def get_context_data(self, **kwargs):
+        """Кеширование сообщений"""
         context_data = super().get_context_data(**kwargs)
         context_data['message'] = get_message()
         return context_data
@@ -142,6 +159,7 @@ class MailingSettingsListView(LoginRequiredMixin, ListView):
 
 
 class MailingSettingsCreateView(CreateView):
+    """Создание рассылок"""
     model = MailingSettings
     form_class = MailingSettingsForm
     success_url = reverse_lazy('mailing:list_settings')
@@ -154,6 +172,7 @@ class MailingSettingsCreateView(CreateView):
 
 
 class MailingSettingsUpdateView(UpdateView):
+    """Редактирование рассылок"""
     model = MailingSettings
     form_class = MailingSettingsForm
     success_url = reverse_lazy('mailing:list_settings')
@@ -166,10 +185,12 @@ class MailingSettingsUpdateView(UpdateView):
 
 
 class MailingSettingsDetailView(DetailView):
+    """Просмотр рассылок"""
     model = MailingSettings
 
 
 class MailingSettingsDeleteView(DeleteView):
+    """Удаление рассылок"""
     model = MailingSettings
     success_url = reverse_lazy('mailing:list_settings')
 

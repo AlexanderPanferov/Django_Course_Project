@@ -7,6 +7,7 @@ from mailing.models import MailingLog, MailingMessage
 
 
 def send_mailing(mailing):
+    """Отправление рассылки по почте и создание логов рассылки"""
     now = datetime.now().time()
     if mailing.start_time <= now <= mailing.stop_time:
         for client in mailing.client.all():

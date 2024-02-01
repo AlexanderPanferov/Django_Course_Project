@@ -14,21 +14,25 @@ from users.services import send_new_password, send_verification_link
 
 
 class LoginView(BaseLoginView):
+    """Страница входа"""
     form_class = UserLoginForm
     template_name = 'users/login.html'
 
 
 class LogoutView(BaseLogoutView):
+    """Страница выхода"""
     pass
 
 
 class RegisterView(CreateView):
+    """Страница регистрации"""
     model = User
     form_class = UserRegisterForm
     success_url = reverse_lazy('users:login')
     template_name = 'users/register.html'
 
     def form_valid(self, form):
+        """Отправления ссылки для подтверждения регистрации"""
         verification_code = ''.join([str(random.randint(0, 9)) for _ in range(6)])
         form.verification_code = verification_code
         user = form.save()
@@ -38,6 +42,7 @@ class RegisterView(CreateView):
 
 
 class ProfileDeleteView(DeleteView):
+    """Страница удаления профиля"""
     model = User
     success_url = reverse_lazy('mailing:mailing')
 
@@ -51,6 +56,7 @@ def verify(request):
 
 
 class ProfileView(UpdateView):
+    """Страница профиля пользователя"""
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('users:profile')
@@ -60,6 +66,7 @@ class ProfileView(UpdateView):
 
 
 def generate_new_password(request):
+    """Генерация пароля"""
     new_password = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(12))
     request.user.set_password(new_password)
     request.user.save()

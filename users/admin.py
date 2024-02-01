@@ -4,6 +4,7 @@ from users.models import User
 
 
 class CustomUserAdmin(admin.ModelAdmin):
+    """Класс для блокировки пользователя"""
     list_display = ('email', 'is_blocked')
     actions = ['block_users', 'unblock_users']
 
