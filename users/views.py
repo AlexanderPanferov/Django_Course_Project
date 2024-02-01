@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from users.models import User
@@ -35,6 +35,11 @@ class RegisterView(CreateView):
         user.verification_code = verification_code
         send_verification_link(user.email, verification_code)
         return super().form_valid(form)
+
+
+class ProfileDeleteView(DeleteView):
+    model = User
+    success_url = reverse_lazy('mailing:mailing')
 
 
 def verify(request):
