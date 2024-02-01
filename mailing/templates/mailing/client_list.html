@@ -25,6 +25,7 @@
                         <a href="{% url 'mailing:delete_client' object.pk %}">Удалить</a>
                     </div>
                 </div>
+                <div class="mb-1 text-muted">Пользователь: {{ object.user.first_name }}</div>
             </div>
         </div>
     </div>

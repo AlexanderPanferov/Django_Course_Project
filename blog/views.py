@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from pytils.translit import slugify
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -28,6 +29,11 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
     form_class = BlogForms
     success_url = reverse_lazy('blog:list_blog')
 
+    def get_form_class(self):
+        if not self.request.user.groups.filter(name='blog_mod').exists():
+            raise Http404
+        return BlogForms
+
     def form_valid(self, form):
         if form.is_valid():
             blog = form.save()
@@ -41,7 +47,18 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
     form_class = BlogForms
     success_url = reverse_lazy('blog:list_blog')
 
+    def get_form_class(self):
+        if not self.request.user.groups.filter(name='blog_mod').exists():
+            raise Http404
+        return BlogForms
+
 
 class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
     success_url = reverse_lazy('blog:list_blog')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if not self.request.user.groups.filter(name='blog_mod').exists():
+            raise Http404
+        return self.object

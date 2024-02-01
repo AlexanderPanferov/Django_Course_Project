@@ -1,12 +1,13 @@
 {% extends 'mailing/base.html' %}
 {% load my_tags %}
+{% load blog_tags %}
 {% block content%}
 
 <h2 class="display-4">Blog</h2>
 
 <div class="btn-group">
     <div class="nav-scroller py-4 mb-2">
-        {% if user.is_authenticated %}
+        {% if user|has_group:"blog_mod" %}
         <a href="{% url 'blog:edit_blog' object.slug %}">Изменить</a>
         <a href="{% url 'blog:delete_blog' object.slug %}">Удалить</a>
         {% endif %}
