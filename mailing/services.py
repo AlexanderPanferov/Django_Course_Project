@@ -1,8 +1,9 @@
 from datetime import datetime
 from smtplib import SMTPException
 from django.conf import settings
+from django.core.cache import cache
 from django.core.mail import send_mail
-from mailing.models import MailingLog
+from mailing.models import MailingLog, MailingMessage
 
 
 def send_mailing(mailing):
@@ -25,7 +26,6 @@ def send_mailing(mailing):
                 )
                 log.save()
 
-
             except SMTPException as error:
                 log = MailingLog.objects.create(
                     datatime=mailing.start_time,
@@ -35,3 +35,15 @@ def send_mailing(mailing):
                     client=client.email,
                 )
                 log.save()
+
+
+def get_message():
+    if settings.CACHE_ENABLED:
+        message = cache.get('message')
+        if message is None:
+            message = MailingMessage.objects.all()
+            cache.set('message', message)
+    else:
+        message = MailingMessage.objects.all()
+
+    return message

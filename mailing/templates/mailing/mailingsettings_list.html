@@ -21,6 +21,7 @@
                 <div class="mb-1 text-muted">Время отправления:{{ object.start_time }}</div>
                 <div class="mb-1 text-muted">Время завершения:{{ object.stop_time }}</div>
                 <p class="card-text mb-auto">Переодичность: {{ object.frequency }}</p>
+                <p class="card-text mb-auto">Сообщение: {{ object.message }}</p>
                 <div class="btn-group">
                     <div class="nav-scroller py-2 mb-2">
                         {% if user|has_group:"mailing_mod" %}

@@ -7,6 +7,7 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 from blog.models import Blog
 from mailing.forms import ClientForm, MailingMessageForm, MailingSettingsForm, ModeratorMailingSettingsForm
 from mailing.models import Client, MailingMessage, MailingSettings, MailingLog
+from mailing.services import get_message
 
 
 class HomepageView(TemplateView):
@@ -124,6 +125,11 @@ class MailingMessageDeleteView(DeleteView):
 
 class MailingSettingsListView(LoginRequiredMixin, ListView):
     model = MailingSettings
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['message'] = get_message()
+        return context_data
 
     def get_queryset(self):
         queryset = super().get_queryset().filter()
